@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Kind</key>
+	<string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
+	<key>Identifier</key>
+	<string>sg.edu.nus.cs3241.openglGlut</string>
+	<key>Concrete</key>
+	<true/>
+	<key>Description</key>
+	<string>This template builds a OpenGL/GLUT project.</string>
+	<key>Ancestors</key>
+	<array>
+		<string>com.apple.dt.unit.base</string>
+		<string>com.apple.dt.unit.macBase</string>
+	</array>
+	<key>Targets</key>
+	<array>
+		<dict>
+			<key>ProductType</key>
+			<string>com.apple.product-type.tool</string>
+			<key>Frameworks</key>
+			<array>
+				<string>OpenGL</string>
+				<string>GLUT</string>
+			</array>
+			<key>BuildPhases</key>
+			<array>
+				<dict>
+					<key>Class</key>
+					<string>Sources</string>
+				</dict>
+				<dict>
+					<key>Class</key>
+					<string>Frameworks</string>
+				</dict>
+				<dict>
+					<key>Class</key>
+					<string>CopyFiles</string>
+					<key>DstPath</key>
+					<string>/usr/share/man/man1/</string>
+					<key>DstSubfolderSpec</key>
+					<string>0</string>
+					<key>RunOnlyForDeploymentPostprocessing</key>
+					<string>YES</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
+	<key>Options</key>
+	<array>
+		<dict>
+			<key>Identifier</key>
+			<string>commandLineType</string>
+			<key>Name</key>
+			<string>Type</string>
+			<key>Description</key>
+			<string>The type of command-line tool to create</string>
+			<key>Default</key>
+			<string>C</string>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Units</key>
+			<dict>
+				<key>C++</key>
+				<dict>
+					<key>Nodes</key>
+					<array>
+						<string>stats.h:comments</string>
+						<string>stats.h:include</string>
+						<string>stats.h:getSeconds:content</string>
+						<string>stats.h:dumpTime:content</string>
+						<string>stats.h:drawBitmapString:content</string>
+						<string>stats.h:drawStr:content</string>
+						<string>stats.h:drawStr:content</string>
+						<string>stats.h:drawFPS:content</string>
+						<string>main.cpp:comments</string>
+						<string>main.cpp:include</string>
+						<string>main.cpp:idle:content</string>
+						<string>main.cpp:display:content</string>
+						<string>main.cpp:keyboard:content</string>
+						<string>main.cpp:mouse:content</string>
+						<string>main.cpp:motion:content</string>
+						<string>main.cpp:main:content</string>
+						<string>___PACKAGENAMEASIDENTIFIER___.1</string>
+					</array>
+					<key>Definitions</key>
+					<dict>
+						<key>stats.h:include</key>
+						<string>#include &lt;GLUT/GLUT.h&gt;
+#include &lt;sys/time.h&gt;
+</string>
+						<key>stats.h:getSeconds:content</key>
+						<string>struct timeval t;
+gettimeofday(&amp;t, NULL);
+long msec = t.tv_sec*1e6 + t.tv_usec;
+return msec/1e6;
+</string>
+						<key>stats.h:dumpTime:content</key>
+						<string>static double psec = getSeconds();
+double csec = getSeconds();
+double sec = csec - psec;
+psec = csec;
+return sec;
+</string>
+						<key>stats.h:drawBitmapString:content</key>
+						<string>while (*string) glutBitmapCharacter(font, *string++);
+</string>
+						<key>stats.h:drawStr:content</key>
+						<string>va_list args;
+char buffer[512];
+va_start(args,font);
+vsprintf(buffer,str,args);
+va_end(args);
+drawBitmapString(buffer,font);
+</string>
+						<key>stats.h:drawFPS:content</key>
+						<string>drawStr(&quot;%.2f&quot;, GLUT_BITMAP_HELVETICA_18, 1.0f/dumpTime());
+</string>
+						<key>main.cpp:include</key>
+						<string>#include &lt;iostream&gt;
+#include &lt;GLUT/GLUT.h&gt;
+#include &lt;OpenGL/OpenGL.h&gt;
+#include "stats.h"
+</string>
+
+						<key>main.cpp:idle:content</key>
+						<string>glutPostRedisplay();</string>
+
+						<key>main.cpp:display:content</key>
+						<string>glMatrixMode(GL_PROJECTION);
+glLoadIdentity();
+glOrtho(0, 1, 0, 1, -1, 1);
+
+glClear(GL_COLOR_BUFFER_BIT);
+
+glColor3f(1, 1, 1);
+
+glBegin(GL_POLYGON);
+glVertex2f(0.25, 0.25);
+glVertex2f(0.75, 0.25);
+glVertex2f(0.75, 0.75);
+glVertex2f(0.25, 0.75);
+glEnd();
+
+glColor3f(0, 0, 0);
+glRasterPos2d(0.32,0.48);
+drawStr("HELLO WORLD!", GLUT_BITMAP_TIMES_ROMAN_24);
+
+glColor3f(1, 1, 1);
+glRasterPos2d(0.0,0.97);
+drawFPS();
+
+glutSwapBuffers();
+</string>
+
+						<key>main.cpp:keyboard:content</key>
+						<string>switch (key) {
+	case 27:
+		exit(0);
+		break;
+		
+	default:
+		break;
+}
+</string>
+
+						<key>main.cpp:mouse:content</key>
+						<string></string>
+
+						<key>main.cpp:motion:content</key>
+						<string></string>
+
+						<key>main.cpp:main:content</key>
+						<string>glutInit(&amp;argc, argv);
+glutInitDisplayMode(GLUT_RGBA | GL_DOUBLE);
+glutInitWindowPosition ( 100, 100 );
+glutInitWindowSize ( 500, 500 );
+glutCreateWindow(argv[0]);
+
+CGLContextObj context = CGLGetCurrentContext();
+const GLint SYNC_TO_REFRESH = 0;
+CGLSetParameter(context, kCGLCPSwapInterval, &amp;SYNC_TO_REFRESH);
+
+glutIdleFunc(idle);
+glutKeyboardFunc(keyboard);
+glutMouseFunc(mouse);
+glutMotionFunc (motion);
+glutDisplayFunc(display);
+//glutReshapeFunc(reshape);
+glutMainLoop();
+return 0;</string>
+					</dict>
+				</dict>
+			</dict>
+		</dict>
+	</array>
+	<key>Definitions</key>
+	<dict>
+		<key>___PACKAGENAMEASIDENTIFIER___.1</key>
+		<dict>
+			<key>Path</key>
+			<string>___PACKAGENAMEASIDENTIFIER___.1</string>
+		</dict>
+		
+		
+		
+		<key>*:idle</key>
+		<dict>
+			<key>Beginning</key>
+			<string>void idle() {</string>
+			<key>End</key>
+			<string>}
+</string>
+			<key>Indent</key>
+			<integer>1</integer>
+		</dict>
+		
+		<key>*:display</key>
+		<dict>
+			<key>Beginning</key>
+			<string>void display() {</string>
+			<key>End</key>
+			<string>}
+</string>
+			<key>Indent</key>
+			<integer>1</integer>
+		</dict>
+
+		<key>*:keyboard</key>
+		<dict>
+			<key>Beginning</key>
+			<string>void keyboard( unsigned char key, int x, int y ) {</string>
+			<key>End</key>
+			<string>}
+</string>
+			<key>Indent</key>
+			<integer>1</integer>
+		</dict>
+
+		<key>*:mouse</key>
+		<dict>
+			<key>Beginning</key>
+			<string>void mouse ( int button, int state, int x, int y ) {</string>
+			<key>End</key>
+			<string>}
+</string>
+			<key>Indent</key>
+			<integer>1</integer>
+		</dict>
+		
+		<key>*:motion</key>
+		<dict>
+			<key>Beginning</key>
+			<string>void motion ( int x, int y ) {</string>
+			<key>End</key>
+			<string>}
+</string>
+			<key>Indent</key>
+			<integer>1</integer>
+		</dict>
+		
+		<key>*:main</key>
+		<dict>
+			<key>Beginning</key>
+			<string>int main(int argc, char * argv[]) {</string>
+			<key>End</key>
+			<string>}
+</string>
+			<key>Indent</key>
+			<integer>1</integer>
+		</dict>
+		<key>*:getSeconds</key>
+		<dict>
+			<key>Beginning</key>
+			<string>static double getSeconds() {</string>
+			<key>End</key>
+			<string>}
+</string>
+			<key>Indent</key>
+			<integer>1</integer>
+		</dict>
+
+
+		<key>*:dumpTime</key>
+		<dict>
+			<key>Beginning</key>
+			<string>static double dumpTime() {</string>
+			<key>End</key>
+			<string>}
+</string>
+			<key>Indent</key>
+			<integer>1</integer>
+		</dict>
+
+		<key>*:drawBitmapString</key>
+		<dict>
+			<key>Beginning</key>
+			<string>void drawBitmapString( const char *string, void *font) {</string>
+			<key>End</key>
+			<string>}
+</string>
+			<key>Indent</key>
+			<integer>1</integer>
+		</dict>
+		
+		<key>*:drawStr</key>
+		<dict>
+			<key>Beginning</key>
+			<string>void drawStr(const char* str, void *font, ...) {</string>
+			<key>End</key>
+			<string>}
+</string>
+			<key>Indent</key>
+			<integer>1</integer>
+		</dict>
+				
+		<key>*:drawFPS</key>
+		<dict>
+			<key>Beginning</key>
+			<string>void drawFPS() {</string>
+			<key>End</key>
+			<string>}
+</string>
+			<key>Indent</key>
+			<integer>1</integer>
+		</dict>
+		
+		<key>*:*:importFoundation</key>
+		<string>#import &lt;Foundation/Foundation.h&gt;
+</string>
+	</dict>
+</dict>
+</plist>
